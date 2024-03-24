@@ -1,0 +1,9 @@
+name: SimplePerms
+version: '${project.version}'
+main: de.luispupuis.simpleperms.SimplePerms
+api-version: 1.20
+authors: [ Luispupuis ]
+commands:
+  removePermisssion:
+  addpermission:
+  hasperm:
