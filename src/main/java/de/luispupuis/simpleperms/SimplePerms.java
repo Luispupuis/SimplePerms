@@ -1,5 +1,12 @@
 package de.luispupuis.simpleperms;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import de.luispupuis.simpleperms.Listeners.LeavePacketListener;
 import de.luispupuis.simpleperms.commands.addPermissioncmd;
 import de.luispupuis.simpleperms.commands.hasPermission;
 import de.luispupuis.simpleperms.commands.removePermissioncmd;
@@ -18,6 +25,13 @@ public final class SimplePerms extends JavaPlugin {
         getCommand("removePermisssion").setExecutor(new removePermissioncmd());
         getCommand("hasperm").setExecutor(new hasPermission());
         Bukkit.getPluginManager().registerEvents(new PermissionJoiner(), this);
+        ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+        manager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Server.KICK_DISCONNECT) {
+            @Override
+            public void onPacketReceiving(PacketEvent event) {
+                LeavePacketListener.call(event);
+            }
+        });
     }
 
     @Override
